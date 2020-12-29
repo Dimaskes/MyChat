@@ -1,0 +1,47 @@
+.chatFrame {
+  margin-top: 50px;
+  display: flex;
+  height: 70vh;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+}
+.chatFrame__widget {
+  width: 25%;
+  height: 100%;
+  border-right: 1px solid rgba(0, 0, 0, 0.125);
+}
+.widget__username {
+  text-align: center;
+  margin: 20px 0 20px;
+}
+.list-messages .list-group-item {
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+}
+
+.chatFrame__content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.card-body {
+  padding: 10px;
+}
+.content__messages .author {
+  text-align: right;
+}
+.send-message__form {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+.message {
+  margin: 6px 6px 6px 10px;
+}
+
+.send-message {
+  width: 95%;
+  margin: 0 auto;
+}
