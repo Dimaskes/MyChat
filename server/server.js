@@ -11,7 +11,18 @@ const server = http.createServer(app);
 const io = socketIO(server);
 
 io.sockets.on('connection', (socket) => {
-  console.log('hello', socket);
+  socket.on('sendMessage', (obj) => {
+    socket.broadcast.emit('getMessage', {
+      name: obj.name,
+      msg: obj.msg,
+      author: false,
+    });
+    socket.emit('getMessage', {
+      name: 'Вы',
+      msg: obj.msg,
+      author: true,
+    });
+  });
 });
 
 server.listen(3000, () => {
