@@ -61,6 +61,7 @@ function renderMessage(obj) {
       </div>
       `;
   messages.insertAdjacentHTML('beforeend', html);
+  messages.scrollTop = messages.scrollHeight - messages.clientHeight;
 }
 
 socket.once('connected', (obj) => {

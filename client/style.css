@@ -41,6 +41,10 @@
 .card-body {
   padding: 10px;
 }
+.content__messages {
+  overflow-y: scroll;
+  height: 85%;
+}
 .content__messages .author {
   text-align: right;
 }
