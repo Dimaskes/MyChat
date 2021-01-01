@@ -49,14 +49,31 @@ sendButton.addEventListener('click', () => {
   }
 });
 
-socket.on('getMessage', (obj) => {
+socket.on('getMessage', (obj) => renderMessage(obj));
+
+function renderMessage(obj) {
   const html = `
-  <div class="message card ${obj.author && 'author'}">
-    <div class="card-body text-dark">
-      <h5 class="card-title">${obj.name}</h5>
-      <p class="card-text">${obj.msg}</p>
-    </div>
-  </div>
-  `;
+      <div class="message card ${obj.author && 'author'}">
+        <div class="card-body text-dark">
+          <h5 class="card-title">${obj.name}</h5>
+          <p class="card-text">${obj.msg}</p>
+        </div>
+      </div>
+      `;
   messages.insertAdjacentHTML('beforeend', html);
+}
+
+socket.once('connected', (obj) => {
+  const countOfMessages = Object.keys(obj);
+  for (const curMsg of countOfMessages) {
+    const html = `
+      <div class="message card">
+        <div class="card-body text-dark">
+          <h5 class="card-title">${obj[curMsg].name}</h5>
+          <p class="card-text">${obj[curMsg].msg}</p>
+        </div>
+      </div>
+      `;
+    messages.insertAdjacentHTML('beforeend', html);
+  }
 });

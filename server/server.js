@@ -10,13 +10,19 @@ app.use(express.static(clientPath));
 const server = http.createServer(app);
 const io = socketIO(server);
 
+const messages = [];
+
 io.sockets.on('connection', (socket) => {
+  socket.emit('connected', { ...messages });
   socket.on('sendMessage', (obj) => {
-    socket.broadcast.emit('getMessage', {
+    const messageObj = {
       name: obj.name,
       msg: obj.msg,
       author: false,
-    });
+    };
+    messages.push(messageObj);
+
+    socket.broadcast.emit('getMessage', messageObj);
     socket.emit('getMessage', {
       name: 'Вы',
       msg: obj.msg,
