@@ -51,30 +51,32 @@ sendButton.addEventListener('click', () => {
 
 socket.on('getMessage', (obj) => renderMessage(obj));
 
-function renderMessage(obj) {
-  const html = `
-      <div class="message card ${obj.author && 'author'}">
-        <div class="card-body text-dark">
-          <h5 class="card-title">${obj.name}</h5>
-          <p class="card-text">${obj.msg}</p>
-        </div>
-      </div>
-      `;
-  messages.insertAdjacentHTML('beforeend', html);
-  messages.scrollTop = messages.scrollHeight - messages.clientHeight;
-}
+const autoScroll = (area) => (area.scrollTop = area.scrollHeight - area.clientHeight);
 
-socket.once('connected', (obj) => {
-  const countOfMessages = Object.keys(obj);
-  for (const curMsg of countOfMessages) {
-    const html = `
-      <div class="message card">
-        <div class="card-body text-dark">
-          <h5 class="card-title">${obj[curMsg].name}</h5>
-          <p class="card-text">${obj[curMsg].msg}</p>
-        </div>
-      </div>
-      `;
-    messages.insertAdjacentHTML('beforeend', html);
+const printMessage = (obj) => {
+  const html = `
+  <div class="message card ${obj.author && 'author'}">
+    <div class="card-body text-dark">
+      <h5 class="card-title">${obj.name}</h5>
+      <p class="card-text">${obj.msg}</p>
+    </div>
+  </div>
+  `;
+  messages.insertAdjacentHTML('beforeend', html);
+};
+
+const renderMessage = (obj, oldMessages = 0) => {
+  if (oldMessages) {
+    for (const curMsg of oldMessages) {
+      printMessage(obj[curMsg]);
+    }
+  } else {
+    printMessage(obj);
   }
+  autoScroll(messages);
+};
+
+socket.once('renderOldMessages', (obj) => {
+  const oldMessages = Object.keys(obj);
+  renderMessage(obj, oldMessages);
 });

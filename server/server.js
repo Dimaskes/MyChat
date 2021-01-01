@@ -13,7 +13,7 @@ const io = socketIO(server);
 const messages = [];
 
 io.sockets.on('connection', (socket) => {
-  socket.emit('connected', { ...messages });
+  socket.emit('renderOldMessages', { ...messages });
   socket.on('sendMessage', (obj) => {
     const messageObj = {
       name: obj.name,
